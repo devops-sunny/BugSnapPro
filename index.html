@@ -1,88 +1,776 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BugSnapPro Privacy Policy</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.8;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
-      color: #222;
-      background: #fff;
-    }
-    h1, h2 {
-      color: #111;
-      margin-top: 28px;
-    }
-    p, li {
-      font-size: 16px;
-    }
-    ul {
-      padding-left: 22px;
-    }
-    .box {
-      background: #f7f7f7;
-      border-left: 4px solid #222;
-      padding: 14px 18px;
-      margin: 20px 0;
-      border-radius: 8px;
-    }
-    footer {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid #ddd;
-      font-size: 14px;
-      color: #555;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechMart — Electronics Store</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#f5f6fa;--white:#ffffff;--border:#e8eaed;--text:#1c1c1e;--muted:#8e8e93;
+    --primary:#0071e3;--primary-dark:#0051a2;--success:#30d158;--warning:#ff9f0a;
+    --danger:#ff3b30;--radius:12px;--shadow:0 2px 16px rgba(0,0,0,0.08);
+  }
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+  /* TOP BAR */
+  .topbar{background:#1c1c1e;color:#fff;font-size:12px;text-align:center;padding:8px;letter-spacing:.02em}
+  .topbar span{color:#ffd60a;font-weight:600}
+
+  /* NAV */
+  nav{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(0,0,0,0.06)}
+  .logo{font-size:22px;font-weight:700;color:var(--text)}.logo span{color:var(--primary)}
+  .nav-links{display:flex;gap:28px;list-style:none}
+  .nav-links a{text-decoration:none;color:var(--text);font-size:14px;font-weight:500;transition:color .15s}
+  .nav-links a:hover{color:var(--primary)}
+  .nav-right{display:flex;align-items:center;gap:12px}
+  .search-box{border:1px solid var(--border);border-radius:8px;padding:7px 14px;font-size:13px;width:220px;outline:none;background:#f5f6fa}
+  .search-box:focus{border-color:var(--primary);background:#fff}
+  .cart-btn{background:var(--primary);color:#fff;border:none;padding:9px 20px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;transition:background .15s}
+  .cart-btn:hover{background:var(--primary-dark)}
+  .cart-badge{background:#ff3b30;color:#fff;border-radius:50%;width:18px;height:18px;font-size:10px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,#1c1c1e 0%,#2c2c2e 100%);color:#fff;padding:60px 2rem;text-align:center}
+  .hero h1{font-size:42px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em}
+  .hero h1 span{color:#0071e3}
+  .hero p{font-size:17px;color:#aeaeb2;margin-bottom:28px}
+  .hero-btns{display:flex;gap:12px;justify-content:center}
+  .btn-hero{padding:13px 28px;border-radius:10px;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:all .15s}
+  .btn-hero.primary{background:var(--primary);color:#fff}.btn-hero.primary:hover{background:var(--primary-dark)}
+  .btn-hero.secondary{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)}.btn-hero.secondary:hover{background:rgba(255,255,255,.2)}
+
+  /* CATEGORIES */
+  .section{max-width:1200px;margin:0 auto;padding:2.5rem 2rem}
+  .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+  .section-head h2{font-size:22px;font-weight:700}
+  .see-all{color:var(--primary);font-size:13px;font-weight:600;text-decoration:none;cursor:pointer}
+  .cats{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px}
+  .cat-chip{background:#fff;border:1.5px solid var(--border);border-radius:50px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s}
+  .cat-chip:hover,.cat-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+  /* PRODUCTS */
+  .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem}
+  .product-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;cursor:pointer}
+  .product-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.12)}
+  .prod-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:72px;background:linear-gradient(135deg,#f5f6fa,#e8eaed);position:relative}
+  .prod-badge{position:absolute;top:10px;left:10px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+  .badge-sale{background:#ff3b30;color:#fff}
+  .badge-new{background:#30d158;color:#fff}
+  .badge-hot{background:#ff9f0a;color:#fff}
+  .prod-body{padding:14px}
+  .prod-brand{font-size:11px;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+  .prod-name{font-size:14px;font-weight:600;margin-bottom:6px;line-height:1.3}
+  .prod-rating{display:flex;align-items:center;gap:4px;margin-bottom:8px;font-size:12px;color:var(--muted)}
+  .stars{color:#ff9f0a}
+  .prod-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:12px}
+  .prod-price{font-size:20px;font-weight:700;color:var(--text)}
+  .prod-orig{font-size:13px;color:var(--muted);text-decoration:line-through}
+  .prod-disc{font-size:12px;color:#30d158;font-weight:700}
+  .btn-add{width:100%;background:var(--primary);color:#fff;border:none;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
+  .btn-add:hover{background:var(--primary-dark)}
+  .btn-add:active{transform:scale(.98)}
+
+  /* CART DRAWER */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:opacity .2s}
+  .overlay.open{opacity:1;pointer-events:all}
+  .drawer{position:fixed;right:-420px;top:0;width:400px;height:100%;background:#fff;z-index:201;transition:right .25s cubic-bezier(.4,0,.2,1);box-shadow:-8px 0 32px rgba(0,0,0,.15);display:flex;flex-direction:column}
+  .drawer.open{right:0}
+  .drawer-head{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+  .drawer-head h3{font-size:18px;font-weight:700}
+  .close-btn{background:#f5f6fa;border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+  .close-btn:hover{background:var(--border)}
+  .drawer-body{flex:1;overflow-y:auto;padding:1.25rem 1.5rem}
+  .cart-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+  .ci-img{font-size:38px;width:56px;height:56px;background:#f5f6fa;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .ci-info{flex:1}
+  .ci-name{font-size:14px;font-weight:600;margin-bottom:3px}
+  .ci-brand{font-size:11px;color:var(--muted);margin-bottom:5px}
+  .ci-price{font-size:15px;font-weight:700;color:var(--primary)}
+  .ci-qty-row{display:flex;align-items:center;gap:8px;margin-top:6px}
+  .qty-btn{width:26px;height:26px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+  .qty-btn:hover{background:var(--bg)}
+  .ci-qty{font-size:14px;font-weight:600;min-width:20px;text-align:center}
+  .ci-del{background:none;border:none;cursor:pointer;color:var(--danger);font-size:18px;padding:4px;margin-left:auto}
+  .drawer-foot{padding:1.25rem 1.5rem;border-top:1px solid var(--border)}
+  .subtotal-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px}
+  .total-row{display:flex;justify-content:space-between;font-weight:700;font-size:18px;margin-bottom:16px}
+  .checkout-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:14px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s}
+  .checkout-btn:hover{background:var(--primary-dark)}
+  .empty-cart{text-align:center;color:var(--muted);padding:3rem 1rem}
+  .empty-cart .ec-icon{font-size:56px;margin-bottom:12px}
+  .empty-cart p{font-size:15px;font-weight:500}
+  .empty-cart small{font-size:12px;color:var(--muted)}
+
+  /* TOAST */
+  .toasts{position:fixed;bottom:1.5rem;right:1.5rem;display:flex;flex-direction:column;gap:8px;z-index:400}
+  .toast{padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;color:#fff;min-width:240px;animation:toastIn .25s ease;box-shadow:0 4px 20px rgba(0,0,0,.2);display:flex;align-items:center;gap:10px}
+  .toast.success{background:#30d158}
+  .toast.error{background:#ff3b30}
+  .toast.warning{background:#ff9f0a}
+  .toast.info{background:#0071e3}
+  @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+
+  /* FOOTER */
+  footer{background:#1c1c1e;color:#aeaeb2;padding:3rem 2rem;margin-top:3rem}
+  .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem}
+  .footer-logo{font-size:20px;font-weight:700;color:#fff;margin-bottom:8px}
+  .footer-logo span{color:var(--primary)}
+  .footer-col h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em}
+  .footer-col a{display:block;color:#aeaeb2;font-size:13px;text-decoration:none;margin-bottom:7px;cursor:pointer}
+  .footer-col a:hover{color:#fff}
+  .footer-bottom{max-width:1200px;margin:2rem auto 0;padding-top:1.5rem;border-top:1px solid #2c2c2e;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+
+  /* DEBUG PANEL - hidden initially, shown via button */
+  .debug-toggle{position:fixed;bottom:1.5rem;left:1.5rem;background:#1c1c1e;color:#30d158;border:1px solid #30d158;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;z-index:300}
+  .debug-panel{position:fixed;bottom:60px;left:1.5rem;width:360px;background:#0f172a;border-radius:12px;border:1px solid #1e293b;z-index:300;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4);display:none}
+  .debug-panel.show{display:block}
+  .dp-head{background:#1e293b;padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
+  .dp-head span{color:#94a3b8;font-size:12px;font-weight:700;font-family:monospace}
+  .dp-tabs{display:flex;gap:4px}
+  .dp-tab{background:transparent;border:none;color:#64748b;font-size:11px;padding:3px 9px;border-radius:4px;cursor:pointer;font-family:monospace}
+  .dp-tab.active{background:#334155;color:#e2e8f0}
+  .dp-body{padding:12px 14px;max-height:240px;overflow-y:auto;font-family:monospace;font-size:11px;line-height:1.7}
+  .dp-section{margin-bottom:10px}
+  .dp-section-title{color:#64748b;font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;font-weight:700}
+  .dp-kv{display:flex;justify-content:space-between;border-bottom:1px solid #1e293b;padding:2px 0}
+  .dp-k{color:#94a3b8}.dp-v{color:#86efac;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .log-line{display:flex;gap:8px;padding:1px 0;font-size:11px}
+  .log-line.error{color:#f87171}.log-line.warn{color:#fbbf24}.log-line.log{color:#86efac}.log-line.info{color:#7dd3fc}
+  .log-time{color:#475569;font-size:10px;flex-shrink:0}
+  .log-msg{word-break:break-all}
+  .dp-body::-webkit-scrollbar{width:4px}
+  .dp-body::-webkit-scrollbar-thumb{background:#334155;border-radius:2px}
+</style>
 </head>
 <body>
-  <h1>Privacy Policy for BugSnapPro</h1>
-  <p><strong>Effective Date:</strong> 31 March 2026</p>
 
-  <div class="box">
-    BugSnapPro is a Chrome extension designed for developers, testers, and QA teams to capture browser bug reports through screen recording and technical diagnostics.
+<div class="topbar">🚚 Free delivery on orders above <span>₹999</span> · Use code <span>FIRST10</span> for 10% off</div>
+
+<nav>
+  <div class="logo">Tech<span>Mart</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Products</a></li>
+    <li><a href="#">Deals</a></li>
+    <li><a href="#">Support</a></li>
+  </ul>
+  <div class="nav-right">
+    <input class="search-box" placeholder="Search products..." oninput="handleSearch(this.value)">
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 Cart <span class="cart-badge" id="cart-badge">0</span>
+    </button>
   </div>
+</nav>
 
-  <h2>1. Information We May Access</h2>
-  <ul>
-    <li>Active tab information</li>
-    <li>Screen recording of the active browser tab</li>
-    <li>Console logs</li>
-    <li>Network request diagnostics</li>
-    <li>Cookies related to the active website</li>
-    <li>Local storage and session storage data</li>
-    <li>IndexedDB and PWA-related technical metadata</li>
-    <li>Page title, URL, and technical debugging context</li>
-  </ul>
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Shopping Cart</h3>
+    <button class="close-btn" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="drawer-body" id="cart-body"></div>
+  <div class="drawer-foot">
+    <div class="subtotal-row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+    <div class="subtotal-row"><span>Shipping</span><span>₹49</span></div>
+    <div class="total-row"><span>Total</span><span id="total">₹49</span></div>
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+</div>
 
-  <h2>2. How This Information Is Used</h2>
-  <ul>
-    <li>Help users reproduce browser bugs</li>
-    <li>Generate debugging reports</li>
-    <li>Support development, testing, and QA workflows</li>
-    <li>Improve issue diagnosis and troubleshooting</li>
-  </ul>
+<!-- TOASTS -->
+<div class="toasts" id="toasts"></div>
 
-  <h2>3. When Data Is Accessed</h2>
-  <p>BugSnapPro only accesses relevant data when the user explicitly interacts with the extension and starts a debugging or recording session.</p>
+<!-- DEBUG PANEL (for extension testing) -->
+<!-- <button class="debug-toggle" onclick="toggleDebug()">🐛 Debug Panel</button> -->
+<div class="debug-panel" id="debug-panel">
+  <div class="dp-head">
+    <span>BugSnapPro Debug</span>
+    <div class="dp-tabs">
+      <button class="dp-tab active" onclick="switchTab('logs',this)">Logs</button>
+      <button class="dp-tab" onclick="switchTab('storage',this)">Storage</button>
+      <button class="dp-tab" onclick="switchTab('network',this)">Network</button>
+      <button class="dp-tab" onclick="switchTab('idb',this)">IDB</button>
+    </div>
+  </div>
+  <div class="dp-body" id="dp-body"></div>
+</div>
 
-  <h2>4. Data Storage</h2>
-  <p>Captured data is stored locally in the browser unless the user explicitly chooses to export or submit it.</p>
+<!-- HERO -->
+<div class="hero">
+  <h1>Next-Gen Tech at<br><span>Unbeatable Prices</span></h1>
+  <p>Premium electronics delivered to your doorstep. Free returns. 2-year warranty.</p>
+  <div class="hero-btns">
+    <button class="btn-hero primary" onclick="scrollToProducts()">Shop Now</button>
+    <button class="btn-hero secondary" onclick="triggerNetworkBug()">Check Deals</button>
+  </div>
+</div>
 
-  <h2>5. Data Sharing</h2>
-  <p>BugSnapPro does not sell personal data and does not use user data for advertising, profiling, or marketing.</p>
+<!-- CATEGORIES -->
+<div class="section">
+  <div class="section-head">
+    <h2>Browse Categories</h2>
+    <a class="see-all">See all →</a>
+  </div>
+  <div class="cats">
+    <div class="cat-chip active" onclick="filterCat('all',this)">All Products</div>
+    <div class="cat-chip" onclick="filterCat('audio',this)">🎧 Audio</div>
+    <div class="cat-chip" onclick="filterCat('computing',this)">💻 Computing</div>
+    <div class="cat-chip" onclick="filterCat('accessories',this)">🔌 Accessories</div>
+    <div class="cat-chip" onclick="filterCat('photography',this)">📷 Photography</div>
+    <div class="cat-chip" onclick="filterCat('lighting',this)">💡 Lighting</div>
+  </div>
+</div>
 
-  <h2>6. Chrome Web Store Compliance</h2>
-  <p>BugSnapPro’s use of information complies with the Chrome Web Store User Data Policy, including the Limited Use requirements.</p>
+<!-- PRODUCTS -->
+<div class="section" id="products-section" style="padding-top:0">
+  <div class="section-head">
+    <h2>Featured Products</h2>
+    <a class="see-all" onclick="fetchProductsFromAPI()">Load from API →</a>
+  </div>
+  <div class="products-grid" id="products-grid"></div>
+</div>
 
-  <h2>7. Contact</h2>
-  <p><strong>Email:</strong> your-email@example.com</p>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Tech<span>Mart</span></div>
+      <p style="font-size:13px;line-height:1.6">Your trusted destination for premium electronics and gadgets.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a>New Arrivals</a><a>Best Sellers</a><a>Deals</a><a>Clearance</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a>Help Center</a><a>Returns</a><a>Track Order</a><a>Contact Us</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a>About</a><a>Careers</a><a onclick="showPrivacy()">Privacy Policy</a><a>Terms</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 TechMart. All rights reserved.</span>
+    <span>Built for BugSnapPro extension testing</span>
+  </div>
+</footer>
 
-  <footer>© 2026 BugSnapPro. All rights reserved.</footer>
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const PRODUCTS = [
+  {id:1,name:'Pro Wireless Headphones',brand:'SoundCore',price:2499,orig:3499,emoji:'🎧',cat:'audio',badge:'sale',rating:4.5,reviews:284},
+  {id:2,name:'Mechanical Gaming Keyboard',brand:'KeyForce',price:3999,orig:4999,emoji:'⌨️',cat:'computing',badge:'hot',rating:4.7,reviews:156},
+  {id:3,name:'7-in-1 USB-C Hub',brand:'ConnectPro',price:1299,orig:1599,emoji:'🔌',cat:'accessories',badge:'sale',rating:4.3,reviews:412},
+  {id:4,name:'4K Webcam HD',brand:'VisionCam',price:1899,orig:2299,emoji:'📷',cat:'photography',badge:'new',rating:4.6,reviews:98},
+  {id:5,name:'Extended Mouse Pad XXL',brand:'DeskMate',price:599,orig:799,emoji:'🖱️',cat:'accessories',badge:null,rating:4.2,reviews:630},
+  {id:6,name:'LED Smart Desk Lamp',brand:'LumiTech',price:899,orig:1199,emoji:'💡',cat:'lighting',badge:'new',rating:4.8,reviews:201},
+  {id:7,name:'TWS Earbuds Pro',brand:'SoundCore',price:1799,orig:2499,emoji:'🎵',cat:'audio',badge:'sale',rating:4.4,reviews:327},
+  {id:8,name:'Laptop Stand Adjustable',brand:'ErgoDesk',price:1199,orig:1499,emoji:'💻',cat:'computing',badge:null,rating:4.1,reviews:189},
+];
+
+/* ═══════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════ */
+let cart = [];
+let db = null;
+let logBuffer = [];
+let networkLog = [];
+let idbLog = [];
+let activeTab = 'logs';
+let activeFilter = 'all';
+
+/* ═══════════════════════════════════════════
+   CONSOLE INTERCEPT (BugSnapPro captures these)
+═══════════════════════════════════════════ */
+const _log = console.log, _warn = console.warn, _error = console.error, _info = console.info;
+function addLog(type, args){
+  const msg = args.map(a=>typeof a==='object'?JSON.stringify(a):String(a)).join(' ');
+  const time = new Date().toLocaleTimeString('en-IN',{hour12:false});
+  logBuffer.push({type,msg,time});
+  if(activeTab==='logs') renderDebug();
+}
+console.log   = (...a) => { _log(...a);   addLog('log',a); };
+console.warn  = (...a) => { _warn(...a);  addLog('warn',a); };
+console.error = (...a) => { _error(...a); addLog('error',a); };
+console.info  = (...a) => { _info(...a);  addLog('info',a); };
+
+/* ═══════════════════════════════════════════
+   STORAGE INIT (with intentional bug patterns)
+═══════════════════════════════════════════ */
+function initStorage(){
+  // Session Storage
+  const sid = 'sess_' + Math.random().toString(36).slice(2,9);
+  sessionStorage.setItem('tm_sessionId', sid);
+  sessionStorage.setItem('tm_startTime', new Date().toISOString());
+  sessionStorage.setItem('tm_pageView', '1');
+  sessionStorage.setItem('tm_referrer', document.referrer || 'direct');
+  sessionStorage.setItem('tm_viewport', window.innerWidth+'x'+window.innerHeight);
+  console.info('[Session] New session started — id=' + sid);
+
+  // Local Storage
+  const visits = parseInt(localStorage.getItem('tm_visits') || 0) + 1;
+  localStorage.setItem('tm_visits', visits);
+  localStorage.setItem('tm_theme', 'light');
+  localStorage.setItem('tm_currency', 'INR');
+  localStorage.setItem('tm_lastVisit', new Date().toISOString());
+  localStorage.setItem('tm_wishlist', JSON.stringify([]));
+  localStorage.setItem('tm_prefs', JSON.stringify({notifications:true, newsletter:false, lang:'en-IN', darkMode:false}));
+  console.log('[Storage] LocalStorage initialised — visit #' + visits);
+
+  // BUG: Overwriting session data with undefined reference
+  try {
+    const userData = undefined;
+    sessionStorage.setItem('tm_user', JSON.stringify(userData.profile)); // TypeError
+  } catch(e) {
+    console.error('[Bug] SessionStorage write failed: Cannot read properties of undefined (reading "profile")', e.message);
+  }
+
+  // Cookies
+  setCookie('tm_session', sid, 1);
+  setCookie('tm_currency', 'INR', 30);
+  setCookie('tm_cart_hint', '0', 7);
+  console.log('[Cookies] Session cookies written');
+}
+
+function setCookie(name, value, days){
+  const d = new Date(); d.setTime(d.getTime()+(days*86400000));
+  document.cookie = name+'='+value+'; expires='+d.toUTCString()+'; path=/; SameSite=Lax';
+}
+
+function getCookie(name){
+  const m = document.cookie.match(new RegExp('(^| )'+name+'=([^;]+)'));
+  return m ? m[2] : null;
+}
+
+/* ═══════════════════════════════════════════
+   INDEXEDDB
+═══════════════════════════════════════════ */
+function initDB(){
+  console.info('[IndexedDB] Opening TechMartDB v2...');
+  const req = indexedDB.open('TechMartDB', 2);
+
+  req.onupgradeneeded = e => {
+    const d = e.target.result;
+    if(!d.objectStoreNames.contains('cart')) d.createObjectStore('cart',{keyPath:'productId'});
+    if(!d.objectStoreNames.contains('orders')) d.createObjectStore('orders',{keyPath:'id',autoIncrement:true});
+    if(!d.objectStoreNames.contains('wishlist')) d.createObjectStore('wishlist',{keyPath:'productId'});
+    if(!d.objectStoreNames.contains('recentlyViewed')) d.createObjectStore('recentlyViewed',{keyPath:'productId'});
+    console.log('[IndexedDB] Schema upgraded — stores: cart, orders, wishlist, recentlyViewed');
+    idbLog.push({op:'upgrade',store:'all',time:new Date().toLocaleTimeString()});
+  };
+
+  req.onsuccess = e => {
+    db = e.target.result;
+    console.log('[IndexedDB] TechMartDB opened successfully ✓');
+    idbLog.push({op:'open',store:'TechMartDB',status:'success',time:new Date().toLocaleTimeString()});
+    loadCartFromIDB();
+    toast('Store ready','success');
+  };
+
+  req.onerror = e => {
+    console.error('[IndexedDB] Open failed —', e.target.error);
+    idbLog.push({op:'open',store:'TechMartDB',status:'error',error:String(e.target.error),time:new Date().toLocaleTimeString()});
+    toast('Database error!','error');
+  };
+}
+
+function saveToIDB(storeName, item){
+  if(!db){ console.warn('[IndexedDB] DB not ready'); return; }
+  const tx = db.transaction(storeName,'readwrite');
+  const req = tx.objectStore(storeName).put(item);
+  req.onsuccess = () => {
+    console.log('[IndexedDB] Saved to "'+storeName+'" —', JSON.stringify(item));
+    idbLog.push({op:'write',store:storeName,item:JSON.stringify(item).slice(0,60),time:new Date().toLocaleTimeString()});
+    if(activeTab==='idb') renderDebug();
+  };
+  req.onerror = e => {
+    console.error('[IndexedDB] Write error in "'+storeName+'" —', e.target.error);
+    idbLog.push({op:'error',store:storeName,error:String(e.target.error),time:new Date().toLocaleTimeString()});
+  };
+}
+
+function deleteFromIDB(storeName, key){
+  if(!db) return;
+  const tx = db.transaction(storeName,'readwrite');
+  tx.objectStore(storeName).delete(key);
+  console.log('[IndexedDB] Deleted from "'+storeName+'" key='+key);
+  idbLog.push({op:'delete',store:storeName,key,time:new Date().toLocaleTimeString()});
+}
+
+function loadCartFromIDB(){
+  if(!db) return;
+  const tx = db.transaction('cart','readonly');
+  const req = tx.objectStore('cart').getAll();
+  req.onsuccess = e => {
+    cart = e.target.result.map(r=>({...r,id:r.productId}));
+    updateCartUI();
+    console.info('[IndexedDB] Loaded '+cart.length+' cart items');
+  };
+}
+
+function saveOrderToIDB(total){
+  if(!db) return;
+  const order = {timestamp:new Date().toISOString(),items:[...cart],total,currency:'INR',status:'pending'};
+  const tx = db.transaction('orders','readwrite');
+  const req = tx.objectStore('orders').add(order);
+  req.onsuccess = e => {
+    console.log('[IndexedDB] Order #'+e.target.result+' saved — ₹'+total);
+    toast('Order #'+e.target.result+' placed!','success');
+    idbLog.push({op:'write',store:'orders',item:'Order #'+e.target.result,time:new Date().toLocaleTimeString()});
+  };
+}
+
+/* ═══════════════════════════════════════════
+   PRODUCTS
+═══════════════════════════════════════════ */
+function renderProducts(list){
+  list = list || PRODUCTS;
+  if(activeFilter !== 'all') list = list.filter(p=>p.cat===activeFilter);
+  document.getElementById('products-grid').innerHTML = list.map(p=>`
+    <div class="product-card" onclick="viewProduct(${p.id})">
+      <div class="prod-img">
+        ${p.badge?`<span class="prod-badge badge-${p.badge}">${p.badge.toUpperCase()}</span>`:''}
+        ${p.emoji}
+      </div>
+      <div class="prod-body">
+        <div class="prod-brand">${p.brand}</div>
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-rating">
+          <span class="stars">${'★'.repeat(Math.floor(p.rating))}${'☆'.repeat(5-Math.floor(p.rating))}</span>
+          ${p.rating} (${p.reviews})
+        </div>
+        <div class="prod-price-row">
+          <span class="prod-price">₹${p.price.toLocaleString()}</span>
+          <span class="prod-orig">₹${p.orig.toLocaleString()}</span>
+          <span class="prod-disc">${Math.round((1-p.price/p.orig)*100)}% off</span>
+        </div>
+        <button class="btn-add" onclick="event.stopPropagation();addToCart(${p.id})">Add to Cart</button>
+      </div>
+    </div>`).join('');
+}
+
+function filterCat(cat, el){
+  activeFilter = cat;
+  document.querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  console.log('[Filter] Category changed to: '+cat);
+  renderProducts();
+}
+
+function viewProduct(pid){
+  const p = PRODUCTS.find(x=>x.id===pid);
+  if(!p) return;
+  // Save to recently viewed in IDB
+  saveToIDB('recentlyViewed',{productId:pid,name:p.name,viewedAt:new Date().toISOString()});
+  sessionStorage.setItem('tm_lastViewed', p.name);
+  console.log('[Product] Viewed: '+p.name);
+}
+
+function handleSearch(val){
+  if(val.length < 2){ renderProducts(); return; }
+  const filtered = PRODUCTS.filter(p=>p.name.toLowerCase().includes(val.toLowerCase()) || p.brand.toLowerCase().includes(val.toLowerCase()));
+  console.log('[Search] Query: "'+val+'" — '+filtered.length+' results');
+  renderProducts(filtered);
+}
+
+function scrollToProducts(){
+  document.getElementById('products-section').scrollIntoView({behavior:'smooth'});
+}
+
+/* ═══════════════════════════════════════════
+   CART
+═══════════════════════════════════════════ */
+function addToCart(pid){
+  const p = PRODUCTS.find(x=>x.id===pid);
+  if(!p){ console.error('[Cart] Product not found id='+pid); return; }
+  const existing = cart.find(c=>c.id===pid);
+  if(existing){
+    existing.qty++;
+    saveToIDB('cart',{productId:pid,name:p.name,price:p.price,emoji:p.emoji,brand:p.brand,qty:existing.qty});
+    console.log('[Cart] Qty updated — '+p.name+' x'+existing.qty);
+  } else {
+    const item = {id:pid,productId:pid,name:p.name,price:p.price,emoji:p.emoji,brand:p.brand,qty:1};
+    cart.push(item);
+    saveToIDB('cart',item);
+    console.log('[Cart] Added — '+p.name+' @ ₹'+p.price);
+  }
+  // Update storage
+  sessionStorage.setItem('tm_cartCount', cart.reduce((s,c)=>s+c.qty,0));
+  localStorage.setItem('tm_lastAdded', p.name);
+  localStorage.setItem('tm_cartValue', cart.reduce((s,c)=>s+c.price*c.qty,0));
+  setCookie('tm_cart_hint', cart.length, 7);
+  updateCartUI();
+  toast(p.emoji+' '+p.name+' added!','success');
+}
+
+function changeQty(pid, delta){
+  const item = cart.find(c=>c.id===pid);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty <= 0){
+    removeFromCart(pid); return;
+  }
+  saveToIDB('cart',{productId:pid,name:item.name,price:item.price,emoji:item.emoji,brand:item.brand,qty:item.qty});
+  updateCartUI();
+}
+
+function removeFromCart(pid){
+  const p = cart.find(c=>c.id===pid);
+  if(!p) return;
+  cart = cart.filter(c=>c.id!==pid);
+  deleteFromIDB('cart',pid);
+  console.warn('[Cart] Removed — '+p.name);
+  sessionStorage.setItem('tm_cartCount', cart.reduce((s,c)=>s+c.qty,0));
+  localStorage.setItem('tm_cartValue', cart.reduce((s,c)=>s+c.price*c.qty,0));
+  updateCartUI();
+  toast(p.name+' removed','warning');
+}
+
+function updateCartUI(){
+  const totalQty = cart.reduce((s,c)=>s+c.qty,0);
+  const subtotal = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  document.getElementById('cart-badge').textContent = totalQty;
+  document.getElementById('subtotal').textContent = '₹'+subtotal.toLocaleString();
+  document.getElementById('total').textContent = '₹'+(subtotal+49).toLocaleString();
+  document.getElementById('cart-body').innerHTML = cart.length===0
+    ? `<div class="empty-cart"><div class="ec-icon">🛒</div><p>Your cart is empty</p><small>Add some products to get started</small></div>`
+    : cart.map(c=>`
+      <div class="cart-item">
+        <div class="ci-img">${c.emoji}</div>
+        <div class="ci-info">
+          <div class="ci-name">${c.name}</div>
+          <div class="ci-brand">${c.brand}</div>
+          <div class="ci-price">₹${c.price.toLocaleString()}</div>
+          <div class="ci-qty-row">
+            <button class="qty-btn" onclick="changeQty(${c.id},-1)">−</button>
+            <span class="ci-qty">${c.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${c.id},1)">+</button>
+          </div>
+        </div>
+        <button class="ci-del" onclick="removeFromCart(${c.id})">✕</button>
+      </div>`).join('');
+  if(activeTab==='storage') renderDebug();
+}
+
+function toggleCart(){
+  document.getElementById('drawer').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+  console.log('[Cart] Drawer toggled — '+cart.length+' items');
+}
+
+function checkout(){
+  if(cart.length===0){ toast('Cart is empty!','warning'); console.warn('[Checkout] Attempted with empty cart'); return; }
+  const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  saveOrderToIDB(total+49);
+  // BUG: trying to access property of null
+  try {
+    const paymentGateway = null;
+    paymentGateway.processPayment(total); // TypeError
+  } catch(e) {
+    console.error('[Bug] Payment gateway error: Cannot read properties of null (reading "processPayment")', e.message);
+  }
+  // Clear cart
+  cart = [];
+  if(db){ const tx = db.transaction('cart','readwrite'); tx.objectStore('cart').clear(); }
+  sessionStorage.setItem('tm_cartCount','0');
+  localStorage.setItem('tm_cartValue','0');
+  setCookie('tm_cart_hint','0',7);
+  updateCartUI();
+  toggleCart();
+  toast('🎉 Order placed successfully!','success');
+  console.info('[Checkout] Completed — ₹'+(total+49));
+}
+
+/* ═══════════════════════════════════════════
+   API CALLS (some work, some are bugs)
+═══════════════════════════════════════════ */
+async function fetchProductsFromAPI(){
+  networkLog.push({type:'GET',url:'https://fakestoreapi.com/products?limit=8',status:'pending',time:new Date().toLocaleTimeString()});
+  console.info('[API] GET https://fakestoreapi.com/products?limit=8');
+  toast('Loading from API...','info');
+  try {
+    const r = await fetch('https://fakestoreapi.com/products?limit=8');
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const data = await r.json();
+    networkLog[networkLog.length-1].status = '200 OK';
+    console.log('[API] GET /products — received '+data.length+' items');
+    sessionStorage.setItem('tm_lastAPICall','GET /products — 200 OK');
+    toast('Loaded '+data.length+' products from API ✓','success');
+    // Map to our format
+    const mapped = data.map((d,i)=>({
+      id:100+i, name:d.title.slice(0,30), brand:'APIStore',
+      price:Math.round(d.price*83), orig:Math.round(d.price*83*1.3),
+      emoji:['🎁','📦','🏷️','🛍️','💼','🎒','📱','⌚'][i%8],
+      cat:'accessories', badge:null, rating:d.rating?.rate||4.0, reviews:d.rating?.count||100
+    }));
+    renderProducts(mapped);
+  } catch(e) {
+    networkLog[networkLog.length-1].status = 'Error';
+    console.error('[API] GET /products failed —', e.message);
+    toast('API Error: '+e.message,'error');
+  }
+  if(activeTab==='network') renderDebug();
+}
+
+async function triggerNetworkBug(){
+  // Intentional broken API call for BugSnapPro to capture
+  networkLog.push({type:'GET',url:'https://api.techmart-internal.xyz/deals/featured',status:'pending',time:new Date().toLocaleTimeString()});
+  console.warn('[API] Attempting call to deals endpoint — may fail in demo environment');
+  try {
+    const r = await fetch('https://api.techmart-internal.xyz/deals/featured', {
+      signal: AbortSignal.timeout(4000),
+      headers:{'Authorization':'Bearer demo_token_xyz','Content-Type':'application/json'}
+    });
+    const data = await r.json();
+    networkLog[networkLog.length-1].status = '200 OK';
+    console.log('[API] Deals loaded:', data);
+  } catch(e) {
+    networkLog[networkLog.length-1].status = 'NetworkError';
+    networkLog[networkLog.length-1].error = e.message;
+    console.error('[API] NetworkError: Failed to fetch deals —', e.message);
+    console.warn('[API] Endpoint unreachable — check CORS or server availability');
+    toast('Network error — check BugSnapPro!','error');
+  }
+  if(activeTab==='network') renderDebug();
+}
+
+async function postUserEvent(eventName, data){
+  networkLog.push({type:'POST',url:'https://analytics.techmart-internal.xyz/events',status:'pending',time:new Date().toLocaleTimeString()});
+  console.info('[Analytics] Posting event: '+eventName);
+  try {
+    const r = await fetch('https://analytics.techmart-internal.xyz/events',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({event:eventName,data,ts:Date.now(),session:sessionStorage.getItem('tm_sessionId')}),
+      signal:AbortSignal.timeout(3000)
+    });
+    networkLog[networkLog.length-1].status = r.ok?'200 OK':'HTTP '+r.status;
+    console.log('[Analytics] Event "'+eventName+'" sent — status '+r.status);
+  } catch(e) {
+    networkLog[networkLog.length-1].status = 'Failed';
+    networkLog[networkLog.length-1].error = e.message;
+    console.error('[Analytics] POST failed —', e.message);
+  }
+  if(activeTab==='network') renderDebug();
+}
+
+/* ═══════════════════════════════════════════
+   DEBUG PANEL
+═══════════════════════════════════════════ */
+function toggleDebug(){
+  document.getElementById('debug-panel').classList.toggle('show');
+  renderDebug();
+}
+
+function switchTab(tab, el){
+  activeTab = tab;
+  document.querySelectorAll('.dp-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderDebug();
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function renderDebug(){
+  const body = document.getElementById('dp-body');
+  if(activeTab==='logs'){
+    const icons={log:'▶',warn:'⚠',error:'✖',info:'ℹ'};
+    body.innerHTML = logBuffer.slice(-60).map(l=>`
+      <div class="log-line ${l.type}">
+        <span class="log-time">${l.time}</span>
+        <span style="margin:0 4px">${icons[l.type]||'·'}</span>
+        <span class="log-msg">${esc(l.msg)}</span>
+      </div>`).join('');
+    body.scrollTop = body.scrollHeight;
+  } else if(activeTab==='storage'){
+    const ssKeys = Object.keys(sessionStorage).filter(k=>k.startsWith('tm_'));
+    const lsKeys = Object.keys(localStorage).filter(k=>k.startsWith('tm_'));
+    const cookies = document.cookie.split(';').map(c=>c.trim()).filter(c=>c.startsWith('tm_'));
+    body.innerHTML = `
+      <div class="dp-section"><div class="dp-section-title">Session Storage (${ssKeys.length} keys)</div>
+        ${ssKeys.map(k=>`<div class="dp-kv"><span class="dp-k">${k.replace('tm_','')}</span><span class="dp-v">${esc(sessionStorage.getItem(k))}</span></div>`).join('')}
+      </div>
+      <div class="dp-section"><div class="dp-section-title">Local Storage (${lsKeys.length} keys)</div>
+        ${lsKeys.map(k=>`<div class="dp-kv"><span class="dp-k">${k.replace('tm_','')}</span><span class="dp-v">${esc(localStorage.getItem(k))}</span></div>`).join('')}
+      </div>
+      <div class="dp-section"><div class="dp-section-title">Cookies (${cookies.length})</div>
+        ${cookies.map(c=>`<div class="dp-kv"><span class="dp-k">${esc(c.split('=')[0])}</span><span class="dp-v">${esc(c.split('=')[1]||'')}</span></div>`).join('')}
+      </div>`;
+  } else if(activeTab==='network'){
+    body.innerHTML = networkLog.length===0
+      ? '<div style="color:#64748b;padding:8px">No API calls yet. Click "Check Deals" or "Load from API".</div>'
+      : networkLog.slice(-20).map(n=>`
+        <div class="dp-kv">
+          <span class="dp-k" style="color:${n.type==='POST'?'#fbbf24':'#7dd3fc'}">[${n.type}]</span>
+          <span class="dp-v" style="color:${n.status&&n.status.includes('Error')||n.status==='Failed'?'#f87171':n.status==='200 OK'?'#86efac':'#94a3b8'}">${esc(n.status||'...')} — ${esc(n.url.split('/').slice(-2).join('/'))}</span>
+        </div>`).join('');
+  } else if(activeTab==='idb'){
+    body.innerHTML = idbLog.length===0
+      ? '<div style="color:#64748b;padding:8px">Waiting for IndexedDB activity...</div>'
+      : idbLog.slice(-30).map(l=>`
+        <div class="dp-kv">
+          <span class="dp-k" style="color:${l.op==='error'?'#f87171':'#7dd3fc'}">[${l.op}]</span>
+          <span class="dp-v">${esc(l.store)} ${l.item?'— '+esc(l.item):''} ${l.error?'ERR: '+esc(l.error):''}</span>
+        </div>`).join('');
+  }
+}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+function toast(msg, type='info'){
+  const icons={success:'✓',error:'✖',warning:'⚠',info:'ℹ'};
+  const wrap = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className='toast '+type;
+  el.innerHTML = `<span>${icons[type]||'·'}</span><span>${msg}</span>`;
+  wrap.appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .4s';setTimeout(()=>el.remove(),400)},3000);
+}
+
+function showPrivacy(){
+  console.info('[Privacy] Policy page viewed');
+  toast('Privacy: All data is 100% local','info');
+}
+
+/* ═══════════════════════════════════════════
+   DEMO BUGS — fire on load for BugSnapPro capture
+═══════════════════════════════════════════ */
+function fireDemoBugs(){
+  setTimeout(()=>console.log('[App] TechMart v1.0 initialised'),300);
+  setTimeout(()=>console.info('[Browser] '+navigator.userAgent.slice(0,70)),500);
+  setTimeout(()=>console.warn('[Performance] 8 product cards rendered without lazy loading or virtualisation'),900);
+  setTimeout(()=>console.error('[TypeError] Cannot read properties of undefined (reading "discount") at PriceCalculator.getDiscountedPrice — demo error'),1200);
+  setTimeout(()=>console.log('[IndexedDB] TechMartDB schema ready — 4 object stores'),1500);
+  setTimeout(()=>console.warn('[CORS] Credentials flag set on cross-origin request to fakestoreapi.com — may be blocked'),1800);
+  setTimeout(()=>console.info('[BugSnapPro] All data sources active — console, network, storage, IndexedDB'),2100);
+  setTimeout(()=>console.error('[ReferenceError] analyticsTracker is not defined at initAnalytics() — demo error'),2400);
+  setTimeout(()=>console.warn('[Deprecation] StorageEvent usage may change in future Chrome versions'),2700);
+  setTimeout(()=>console.log('[Session] 6 sessionStorage keys written for current session'),3000);
+  // Post analytics event (will fail — intentional bug)
+  setTimeout(()=>postUserEvent('page_view',{page:'home',products:PRODUCTS.length}), 2000);
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', ()=>{
+  renderProducts();
+  initStorage();
+  initDB();
+  fireDemoBugs();
+  // Live storage updates
+  setInterval(()=>{
+    sessionStorage.setItem('tm_elapsed', Math.floor(performance.now()/1000)+'s');
+    if(activeTab==='storage') renderDebug();
+  }, 5000);
+});
+</script>
 </body>
 </html>
